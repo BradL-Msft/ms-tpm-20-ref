@@ -36,6 +36,8 @@
 // This file contains the basic conversion functions that will convert TPM2B
 // to/from the internal format. The internal format is a bigNum,
 //
+// blah blah
+
 
 //** Includes
 
