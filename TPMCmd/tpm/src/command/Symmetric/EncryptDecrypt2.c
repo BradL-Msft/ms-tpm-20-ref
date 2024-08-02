@@ -51,18 +51,20 @@
 //      TPM_RC_VALUE        'keyHandle' is restricted and the argument 'mode' does
 //                          not match the key's mode
 TPM_RC
-TPM2_EncryptDecrypt2(
-    EncryptDecrypt2_In   *in,            // IN: input parameter list
-    EncryptDecrypt2_Out  *out            // OUT: output parameter list
-    )
+TPM2_EncryptDecrypt2(EncryptDecrypt2_In*  in,  // IN: input parameter list
+                     EncryptDecrypt2_Out* out  // OUT: output parameter list
+)
 {
-    TPM_RC                result;
-    // EncryptDecyrptShared() performs the operations as shown in 
-    // TPM2_EncrypDecrypt 
-    result = EncryptDecryptShared(in->keyHandle, in->decrypt, in->mode,
-                                  &in->ivIn, &in->inData,
-                                  (EncryptDecrypt_Out *)out);
-    // Handle response code swizzle. 
+    TPM_RC result;
+    // EncryptDecyrptShared() performs the operations as shown in
+    // TPM2_EncrypDecrypt
+    result = EncryptDecryptShared(in->keyHandle,
+                                  in->decrypt,
+                                  in->mode,
+                                  &in->ivIn,
+                                  &in->inData,
+                                  (EncryptDecrypt_Out*)out);
+    // Handle response code swizzle.
     switch(result)
     {
         case TPM_RCS_MODE + RC_EncryptDecrypt_mode:
@@ -80,4 +82,4 @@ TPM2_EncryptDecrypt2(
     return result;
 }
 
-#endif // CC_EncryptDecrypt2
+#endif  // CC_EncryptDecrypt2

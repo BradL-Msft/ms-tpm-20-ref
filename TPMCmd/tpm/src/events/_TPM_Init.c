@@ -35,11 +35,8 @@
 #include "Tpm.h"
 #include "_TPM_Init_fp.h"
 
- // This function is used to process a _TPM_Init indication.
-LIB_EXPORT void
-_TPM_Init(
-    void
-    )
+// This function is used to process a _TPM_Init indication.
+LIB_EXPORT void _TPM_Init(void)
 {
     g_powerWasLost = g_powerWasLost | _plat__WasPowerLost();
 
@@ -53,7 +50,7 @@ _TPM_Init(
         memset(&gp, 0xbb, sizeof(gp));
         memset(&go, 0xbb, sizeof(go));
     }
-#endif   
+#endif
 
 #if SIMULATION
     // Clear the flag that forces failure on self-test
@@ -74,7 +71,7 @@ _TPM_Init(
 
     // Initialize the NvEnvironment.
     g_nvOk = NvPowerOn();
-    
+
     // Initialize cryptographic functions
     g_inFailureMode = (g_nvOk == FALSE) || (CryptInit() == FALSE);
     if(!g_inFailureMode)

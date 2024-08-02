@@ -47,15 +47,14 @@
 //                              by the hash algorithm associated with
 //                              'policySession'
 TPM_RC
-TPM2_PolicyCpHash(
-    PolicyCpHash_In     *in             // IN: input parameter list
-    )
+TPM2_PolicyCpHash(PolicyCpHash_In* in  // IN: input parameter list
+)
 {
-    SESSION     *session;
-    TPM_CC      commandCode = TPM_CC_PolicyCpHash;
-    HASH_STATE  hashState;
+    SESSION*   session;
+    TPM_CC     commandCode = TPM_CC_PolicyCpHash;
+    HASH_STATE hashState;
 
-// Input Validation
+    // Input Validation
 
     // Get pointer to the session structure
     session = SessionGet(in->policySession);
@@ -66,15 +65,14 @@ TPM2_PolicyCpHash(
     if(in->cpHashA.t.size != CryptHashGetDigestSize(session->authHashAlg))
         return TPM_RCS_SIZE + RC_PolicyCpHash_cpHashA;
 
-    // error if the cpHash in session context is not empty and is not the same 
+    // error if the cpHash in session context is not empty and is not the same
     // as the input or is not a cpHash
     if((session->u1.cpHash.t.size != 0)
        && (!session->attributes.isCpHashDefined
            || !MemoryEqual2B(&in->cpHashA.b, &session->u1.cpHash.b)))
         return TPM_RC_CPHASH;
-    
 
-// Internal Data Update
+    // Internal Data Update
 
     // Update policy hash
     // policyDigestnew = hash(policyDigestold || TPM_CC_PolicyCpHash || cpHashA)
@@ -94,10 +92,10 @@ TPM2_PolicyCpHash(
     CryptHashEnd2B(&hashState, &session->u2.policyDigest.b);
 
     // update cpHash in session context
-    session->u1.cpHash = in->cpHashA;
+    session->u1.cpHash                  = in->cpHashA;
     session->attributes.isCpHashDefined = SET;
 
     return TPM_RC_SUCCESS;
 }
 
-#endif // CC_PolicyCpHash
+#endif  // CC_PolicyCpHash

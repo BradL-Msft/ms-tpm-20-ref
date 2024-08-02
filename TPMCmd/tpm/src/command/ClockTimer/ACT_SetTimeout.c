@@ -43,12 +43,11 @@
 //  Return Type: TPM_RC
 //      TPM_RC_RETRY            returned when an update for the selected ACT is
 //                              already pending
-//      TPM_RC_VALUE            attempt to disable signaling from an ACT that has 
+//      TPM_RC_VALUE            attempt to disable signaling from an ACT that has
 //                              not expired
 TPM_RC
-TPM2_ACT_SetTimeout(
-    ACT_SetTimeout_In      *in             // IN: input parameter list
-    )
+TPM2_ACT_SetTimeout(ACT_SetTimeout_In* in  // IN: input parameter list
+)
 {
     // If 'startTimeout' is UINT32_MAX, then this is an attempt to disable the ACT
     // and turn off the signaling for the ACT. This is only valid if the ACT
@@ -58,4 +57,4 @@ TPM2_ACT_SetTimeout(
     return ActCounterUpdate(in->actHandle, in->startTimeout);
 }
 
-#endif // CC_ACT_SetTimeout
+#endif  // CC_ACT_SetTimeout
